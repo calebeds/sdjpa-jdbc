@@ -3,6 +3,7 @@ package com.calebehttps.start.spring.io.sdjpajdbc;
 import com.calebehttps.start.spring.io.sdjpajdbc.dao.AuthorDao;
 import com.calebehttps.start.spring.io.sdjpajdbc.dao.AuthorDaoImpl;
 import com.calebehttps.start.spring.io.sdjpajdbc.domain.Author;
+import com.calebehttps.start.spring.io.sdjpajdbc.repositories.AuthorRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -21,6 +22,8 @@ public class AuthorDaoIntegrationTest {
 
     @Autowired
     AuthorDao authorDao;
+    @Autowired
+    private AuthorRepository authorRepository;
 
     @Test
     void testGetAuthor() {
@@ -32,5 +35,15 @@ public class AuthorDaoIntegrationTest {
     void testGetAuthorByName() {
         Author author = authorDao.getAuthorByName("Craig", "Walls");
         assertThat(author).isNotNull();
+    }
+
+    @Test
+    void testSaveNewAuthor() {
+        Author author = new Author();
+        author.setFirstName("Calebe");
+        author.setLastName("Oliveira");
+        Author saved = authorDao.saveNewAuthor(author);
+
+        assertThat(saved).isNotNull();
     }
 }
