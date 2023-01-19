@@ -1,7 +1,9 @@
 package com.calebehttps.start.spring.io.sdjpajdbc;
 
+import com.calebehttps.start.spring.io.sdjpajdbc.dao.AuthorDaoImpl;
 import com.calebehttps.start.spring.io.sdjpajdbc.dao.BookDao;
 import com.calebehttps.start.spring.io.sdjpajdbc.dao.BookDaoImpl;
+import com.calebehttps.start.spring.io.sdjpajdbc.domain.Author;
 import com.calebehttps.start.spring.io.sdjpajdbc.domain.Book;
 import com.calebehttps.start.spring.io.sdjpajdbc.repositories.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ActiveProfiles("local")
 @DataJpaTest
-@Import(BookDaoImpl.class)
+@Import({BookDaoImpl.class, AuthorDaoImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class BookDaoIntegrationTest {
     @Autowired
@@ -41,7 +43,11 @@ public class BookDaoIntegrationTest {
         Book book = new Book();
         book.setTitle("An Interesting Title");
         book.setIsbn("ISBN");
-        book.setAuthorId(1L);
+
+        Author author = new Author();
+        author.setId(3L);
+
+        book.setAuthor(author);
         book.setPublisher("Uncanny Publisher");
         Book saved = bookDao.saveNewBook(book);
         assertThat(saved).isNotNull();
@@ -53,7 +59,11 @@ public class BookDaoIntegrationTest {
         Book book = new Book();
         book.setTitle("An Interesting Title");
         book.setIsbn("ISBN");
-        book.setAuthorId(1L);
+
+        Author author = new Author();
+        author.setId(3L);
+
+        book.setAuthor(author);
         book.setPublisher("Uncanny Publisher");
         Book saved = bookDao.saveNewBook(book);
 
@@ -69,7 +79,6 @@ public class BookDaoIntegrationTest {
         Book book = new Book();
         book.setTitle("An Interesting Title");
         book.setIsbn("ISBN");
-        book.setAuthorId(1L);
         book.setPublisher("Uncanny Publisher");
         Book saved = bookDao.saveNewBook(book);
 
