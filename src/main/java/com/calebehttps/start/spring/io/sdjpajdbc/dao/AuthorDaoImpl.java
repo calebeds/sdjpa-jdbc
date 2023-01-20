@@ -1,6 +1,7 @@
 package com.calebehttps.start.spring.io.sdjpajdbc.dao;
 
 import com.calebehttps.start.spring.io.sdjpajdbc.domain.Author;
+import org.springframework.jdbc.core.RowMapper;
 
 public class AuthorDaoImpl implements AuthorDao {
     @Override
@@ -26,5 +27,9 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public void deleteAuthorById(Long id) {
 
+    }
+
+    private RowMapper<Author> getRowMapper() {
+        return new AuthorMapper();
     }
 }
