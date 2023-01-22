@@ -41,8 +41,10 @@ public class AuthorDaoIntegrationTest {
     void testSaveNewAuthor() {
         Author author = new Author();
         author.setFirstName("Calebe");
-        author.setLastName("Oliveira");
+        author.setLastName("Impostor");
         Author saved = authorDao.saveNewAuthor(author);
+
+        System.out.println("New id is: " + saved.getId());
 
         assertThat(saved).isNotNull();
     }
