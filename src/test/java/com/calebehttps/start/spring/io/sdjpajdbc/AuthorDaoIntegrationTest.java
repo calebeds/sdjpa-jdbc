@@ -10,7 +10,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.TransientDataAccessResourceException;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,6 +48,7 @@ public class AuthorDaoIntegrationTest {
         Author author = new Author();
         author.setFirstName("Calebe");
         author.setLastName("Impostor");
+        author.setBooks(new ArrayList<>());
         Author saved = authorDao.saveNewAuthor(author);
 
         System.out.println("New id is: " + saved.getId());
@@ -66,6 +71,7 @@ public class AuthorDaoIntegrationTest {
     }
 
     @Test
+    @Rollback(value = false)
     void testDeleteAuthor() {
         Author author = new Author();
         author.setFirstName("Calebe");
@@ -75,7 +81,7 @@ public class AuthorDaoIntegrationTest {
 
         authorDao.deleteAuthorById(saved.getId());
 
-     assertThrows(EmptyResultDataAccessException.class, () -> {
+     assertThrows(TransientDataAccessResourceException.class, () -> {
          authorDao.getById(saved.getId());
      });
     }
